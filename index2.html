@@ -1,1 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Drawing Tool</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 40px;
+            margin: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin: 0 0 15px 0;
+            font-size: 24px;
+        }
+        #drawing-canvas {
+            border: 2px solid #333;
+            cursor: crosshair;
+            touch-action: none; /* Prevents scrolling on touch devices */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>SVG Drawing Tool</h1>
+        <svg id="drawing-canvas" width="100%" height="500"></svg>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const svgCanvas = document.getElementById('drawing-canvas');
+            let isDrawing = false;
+            let currentLine = null;
+
+            // Function to get mouse/touch position relative to the SVG canvas
+            function getCoordinates(event) {
+                const CTM = svgCanvas.getScreenCTM();
+                let x, y;
+
+                if (event.touches) { // For touch events
+                    x = (event.touches[0].clientX - CTM.e) / CTM.a;
+                    y = (event.touches[0].clientY - CTM.f) / CTM.d;
+                } else { // For mouse events
+                    x = (event.clientX - CTM.e) / CTM.a;
+                    y = (event.clientY - CTM.f) / CTM.d;
+                }
+                return { x, y };
+            }
+
+            // --- Event Handlers ---
+
+            function startDrawing(event) {
+                isDrawing = true;
+                const { x, y } = getCoordinates(event);
+
+                // Create a new polyline element for the new drawing
+                currentLine = document.createElementNS('http://www.w3.org/2000/svg', 'polyline');
+                currentLine.setAttribute('stroke', 'blue');
+                currentLine.setAttribute('stroke-width', '3');
+                currentLine.setAttribute('fill', 'none');
+                currentLine.setAttribute('points', `${x},${y}`);
+                
+                svgCanvas.appendChild(currentLine);
+            }
+
+            function draw(event) {
+                if (!isDrawing) return;
+                
+                // Prevent default behavior like scrolling on touch devices
+                event.preventDefault(); 
+
+                const { x, y } = getCoordinates(event);
+                const points = currentLine.getAttribute('points');
+                
+                // Append the new point to the polyline
+                currentLine.setAttribute('points', `${points} ${x},${y}`);
+            }
+
+            function stopDrawing() {
+                isDrawing = false;
+                currentLine = null;
+            }
+
+            // --- Event Listeners ---
+
+            // Mouse Events
+            svgCanvas.addEventListener('mousedown', startDrawing);
+            svgCanvas.addEventListener('mousemove', draw);
+            svgCanvas.addEventListener('mouseup', stopDrawing);
+            svgCanvas.addEventListener('mouseleave', stopDrawing); // Stop if mouse leaves canvas
+
+            // Touch Events for mobile support
+            svgCanvas.addEventListener('touchstart', startDrawing);
+            svgCanvas.addEventListener('touchmove', draw);
+            svgCanvas.addEventListener('touchend', stopDrawing);
+        });
+    </script>
+
+</body>
+</html>
 
