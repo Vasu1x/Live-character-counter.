@@ -1,1 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Character Counter</title>
+    <style>
+        /* CSS styles are now embedded in the HTML file */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            background-color: white;
+            padding: 25px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 450px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        textarea {
+            width: 100%;
+            box-sizing: border-box; /* Ensures padding doesn't affect width */
+            height: 120px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        #char-counter {
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+            margin: 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #fafafa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Live Character Counter</h1>
+        <textarea id="text-input" placeholder="Start typing..."></textarea>
+        <p id="char-counter">Characters: 0</p>
+    </div>
+
+    <script>
+        // JavaScript logic is now embedded in the HTML file
+        
+        // Get the necessary elements from the DOM
+        const textInput = document.getElementById('text-input');
+        const charCounter = document.getElementById('char-counter');
+
+        // Add an event listener that fires on every input change
+        textInput.addEventListener('input', () => {
+            // Get the current length of the text in the textarea
+            const count = textInput.value.length;
+            
+            // Update the text content of the counter element
+            charCounter.textContent = `Characters: ${count}`;
+        });
+    </script>
+</body>
+</html>
 
