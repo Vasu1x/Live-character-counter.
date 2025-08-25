@@ -4,27 +4,157 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dynamic Product Filter</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            text-align: center;
+        }
+        h1 {
+            color: #444;
+            margin-bottom: 30px;
+        }
+        .filter-container {
+            margin-bottom: 30px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+        #category-filter {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .product-item {
+            background-color: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            width: 250px;
+            text-align: left;
+            transition: transform 0.2s;
+        }
+        .product-item:hover {
+            transform: translateY(-5px);
+        }
+        .product-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        .product-item h2 {
+            font-size: 1.2em;
+            margin: 0 0 10px 0;
+        }
+        .product-item .category {
+            font-size: 0.9em;
+            color: #777;
+            margin: 0 0 10px 0;
+        }
+        .product-item .price {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #27ae60;
+            margin: 0;
+        }
+    </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Product List</h2>
+        <h1>Our Awesome Products</h1>
 
         <div class="filter-container">
             <label for="category-filter">Filter by Category:</label>
             <select id="category-filter">
                 <option value="all">All</option>
-                <option value="clothing">Clothing</option>
                 <option value="electronics">Electronics</option>
-                <option value="books">Books</option>
+                <option value="apparel">Apparel</option>
+                <option value="footwear">Footwear</option>
             </select>
         </div>
 
-        <div id="product-list" class="product-list">
+        <div id="product-list" class="product-grid">
+            <div class="product-item" data-category="electronics">
+                <img src="https://via.placeholder.com/200x150/8e44ad/ffffff?text=Headphones" alt="Product">
+                <h2>Wireless Headphones</h2>
+                <p class="category">Category: Electronics</p>
+                <p class="price">$120.00</p>
+            </div>
+            <div class="product-item" data-category="apparel">
+                <img src="https://via.placeholder.com/200x150/2980b9/ffffff?text=T-Shirt" alt="Product">
+                <h2>Graphic T-Shirt</h2>
+                <p class="category">Category: Apparel</p>
+                <p class="price">$25.00</p>
+            </div>
+            <div class="product-item" data-category="footwear">
+                <img src="https://via.placeholder.com/200x150/27ae60/ffffff?text=Sneakers" alt="Product">
+                <h2>Running Sneakers</h2>
+                <p class="category">Category: Footwear</p>
+                <p class="price">$80.00</p>
+            </div>
+            <div class="product-item" data-category="electronics">
+                <img src="https://via.placeholder.com/200x150/8e44ad/ffffff?text=Smartwatch" alt="Product">
+                <h2>Smartwatch</h2>
+                <p class="category">Category: Electronics</p>
+                <p class="price">$250.00</p>
+            </div>
+            <div class="product-item" data-category="apparel">
+                <img src="https://via.placeholder.com/200x150/2980b9/ffffff?text=Jacket" alt="Product">
+                <h2>Denim Jacket</h2>
+                <p class="category">Category: Apparel</p>
+                <p class="price">$75.00</p>
+            </div>
+            <div class="product-item" data-category="footwear">
+                <img src="https://via.placeholder.com/200x150/27ae60/ffffff?text=Boots" alt="Product">
+                <h2>Leather Boots</h2>
+                <p class="category">Category: Footwear</p>
+                <p class="price">$150.00</p>
+            </div>
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const categoryFilter = document.getElementById('category-filter');
+            const productList = document.getElementById('product-list');
+            const productItems = productList.querySelectorAll('.product-item');
+
+            categoryFilter.addEventListener('change', () => {
+                const selectedCategory = categoryFilter.value;
+
+                productItems.forEach(item => {
+                    const itemCategory = item.getAttribute('data-category');
+
+                    if (selectedCategory === 'all' || selectedCategory === itemCategory) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
